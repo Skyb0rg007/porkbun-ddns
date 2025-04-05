@@ -83,6 +83,10 @@ class _Config:
         env_option_name = "PORKBUN_" + option_name.upper()
         if param := os.environ.get(env_option_name, None):
             return str(param)
+        if filename := os.environ.get(env_option_name + "_FILE", None):
+            with open(filename) as file:
+                param = file.read().rstrip()
+            return param
         if self.config_file_content and (param := self.config_file_content.get(option_name, None)):
             return str(param)
         raise PorkbunDDNS_Error(

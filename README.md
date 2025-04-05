@@ -79,9 +79,9 @@ So if a value is set through the CLI and in the file, the CLI-value will be used
 $ porkbun-ddns domain.com my_subdomain
 
 # Using only environment variables:
-# PORKBUN_APIKEY
-# PORKBUN_SECRETAPIKEY
-# PORKBUN_ENDPOINT (Optional)
+# PORKBUN_APIKEY / PORKBUN_APIKEY_FILE
+# PORKBUN_SECRETAPIKEY / PORKBUN_SECRETAPIKEY_FILE
+# PORKBUN_ENDPOINT / PORKBUN_ENDPOINT_FILE (Optional)
 $ porkbun-ddns domain.com my_subdomain --env_only
 
 # Specific config-file:
