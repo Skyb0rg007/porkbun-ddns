@@ -1,0 +1,59 @@
+[Unit]
+Description=Porkbun DDNS service
+Documentation=https://github.com/mietzen/porkbun-ddns
+
+After=network-online.target
+Wants=network-online.target
+
+AssertCredential=porkbun-ddns.api-key
+AssertCredential=porkbun-ddns.secret-api-key
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/porkbun_ddns --env_only --ipv4-only \
+            example.com subdomain_1 subdomain_2
+
+# Secrets management
+# Put the secrets in the files /etc/credstore/porkbun-ddns.api-key
+# and /etc/credstore/porkbun-ddns.secret-api-key
+# Can also encrypt these files at rest with systemd-creds
+# Documentation at https://systemd.io/CREDENTIALS
+LoadCredential=porkbun-ddns.api-key
+LoadCredential=porkbun-ddns.secret-api-key
+Environment="PORKBUN_APIKEY_FILE=%d/porkbun-ddns.api-key"
+Environment="PORKBUN_SECRETAPIKEY_FILE=%d/porkbun-ddns.secret-api-key"
+
+# Hardening
+# These settings isolate the unit for minimal system exposure
+# The service is very simple so most options are enabled
+# systemd-analyze security rating: 1.1 OK
+CapabilityBoundingSet=
+DynamicUser=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+NoNewPrivileges=true
+PrivateDevices=true
+PrivateIPC=true
+PrivateMounts=true
+PrivateTmp=disconnected
+PrivateUsers=true
+ProcSubset=pid
+ProtectClock=true
+ProtectControlGroups=strict
+ProtectHome=true
+ProtectHostname=true
+ProtectKernelLogs=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectProc=invisible
+ProtectSystem=strict
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictNamespaces=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+SystemCallArchitectures=native
+SystemCallErrorNumber=EPERM
+SystemCallFilter=@system-service
+SystemCallFilter=~@resources @privileged
+UMask=7177
+

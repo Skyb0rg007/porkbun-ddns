@@ -1,0 +1,12 @@
+[Unit]
+Description=Run the Porkbun DDNS updater
+Documentation=https://github.com/mietzen/porkbun-ddns
+
+[Timer]
+# Runs the service 1 minute after system boot and every 5 minutes after
+# Update these values to change when the service runs: see systemd.timer(5)
+OnBootSec=1min
+OnUnitActiveSec=5min
+
+[Install]
+WantedBy=timers.target
